@@ -1,20 +1,19 @@
-def placement():
+def placement(robot_array):
     while True:
         starting_position = input(
             "Please enter the starting position in the format of X(Integer),Y(Interger),F(Direction): ")
+        if starting_position == 'PLACE':
+            placement(robot_array)
         try:
             if isinstance(int(starting_position.split(",")[0]), int) and isinstance(int(starting_position.split(",")[1]), int) and starting_position.split(",")[2] in ['EAST', 'SOUTH', 'WEST', 'NORTH']:
-                Robot = {"X": int(starting_position.split(",")[0]), "Y": int(
-                    starting_position.split(",")[1]), "Facing": starting_position.split(",")[2]}
-                return Robot
+                robot_array.append({"X": int(starting_position.split(",")[0]), "Y": int(
+                    starting_position.split(",")[1]), "Facing": starting_position.split(",")[2]})
+                return robot_array
         except:
-            if starting_position == 'PLACE':
-                placement()
-            else:
-                print("Invalid Input!")
+            print("Invalid Input!")
 
 
-def action(active_robot):
+def action(robot_array, active_robot):
     while True:
         next_command = input("Please enter the next action or direction: ")
         if (active_robot["X"] < 0 or active_robot["X"] > 5) or (active_robot["Y"] < 0 or active_robot["Y"] > 5):
@@ -24,8 +23,17 @@ def action(active_robot):
             active_robot = move(active_robot)
         elif next_command == 'LEFT' or next_command == 'RIGHT':
             active_robot["Facing"] = turn(active_robot, next_command)
-        elif next_command == "PLACE":
-            placement()
+        elif next_command == 'PLACE':
+            placement(robot_array)
+        elif next_command.split(" ")[0] == 'ROBOT':
+            try:
+                if len(next_command.split(" ")) == 2 and isinstance(int(next_command.split(" ")[1]), int) and int(next_command.split(" ")[1]) <= len(robot_array):
+                    active_robot = robot_array[int(
+                        next_command.split(" ")[1])-1]
+                elif len(next_command.split(" ")) == 2 and isinstance(int(next_command.split(" ")[1]), int) and int(next_command.split(" ")[1]) > len(robot_array):
+                    print("This Robot does not exist!")
+            except:
+                print("Invalid Input!")
         elif next_command == 'REPORT':
             print(
                 f'{str(active_robot["X"])},{str(active_robot["Y"])},{active_robot["Facing"]}')
@@ -77,13 +85,20 @@ def turn(active_robot, direction):
     return active_robot["Facing"]
 
 
+def activate_robot(robot_array, robot_number):
+    active_robot = robot_array[robot_number-1]
+    return active_robot
+
+
 if __name__ == '__main__':
+    Robots = []
     while True:
         initiator = input("Please enter your first command: ")
         if initiator == "PLACE":
-            Robot = dict()
-            Robot = placement()
-            action(Robot)
+            Robots = placement(Robots)
+            if len(Robots) == 1:
+                active_robot = Robots[0]
+            action(Robots, active_robot)
             break
         else:
             print("Invalid input!")
