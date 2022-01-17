@@ -1,0 +1,26 @@
+a)
+
+C:\Users\wanya\Documents\projects\python\ioof>python main.py
+Please enter your command: PLACE 0,0,NORTH
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: REPORT
+0,1,NORTH
+
+b)
+
+C:\Users\wanya\Documents\projects\python\ioof>python main.py
+Please enter your command: PLACE 0,0,NORTH
+Please enter the next action or direction: LEFT
+Please enter the next action or direction: REPORT
+0,0,WEST
+
+c)
+
+C:\Users\wanya\Documents\projects\python\ioof>python main.py
+Please enter your command: PLACE 1,2,EAST
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: LEFT
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: REPORT
+3,3,NORTH
