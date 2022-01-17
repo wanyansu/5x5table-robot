@@ -20,7 +20,7 @@ def action(active_robot):
     while True:
         next_command = input("Please enter the next action or direction: ")
         if (active_robot["X"] < 0 or active_robot["X"] > 5) or (active_robot["Y"] < 0 or active_robot["Y"] > 5):
-            print("Your robot is not on the table.")
+            print("Your robot is not on the tabletop.")
             break
         if next_command == 'MOVE':
             active_robot = move(active_robot)

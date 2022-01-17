@@ -1,10 +1,10 @@
-def placement(position_x, position_y, facing, robot):
+def placement(position_x, position_y, facing, robot_list):
     directions = ["EAST", "SOUTH", "WEST", "NORTH"]
     try:
         if isinstance(int(position_x), int) and isinstance(int(position_y), int) and facing in directions:
-            robot = {"X": int(position_x), "Y": int(
-                position_y), "Facing": facing}
-            return robot
+            robot_list.append({"X": int(position_x), "Y": int(
+                position_y), "Facing": facing})
+            return robot_list
         elif isinstance(int(position_x), int) and isinstance(int(position_y), int) and facing not in directions:
             print("Your input of facing directions is not valid")
             return
@@ -16,11 +16,13 @@ def placement(position_x, position_y, facing, robot):
         return
 
 
-def action(active_robot):
+def action(robot_list):
     while True:
         next_command = input("Please enter the next action or direction: ")
+        if len(robot_list) == 1:
+            active_robot = robot_list[0]
         if (active_robot["X"] < 0 or active_robot["X"] > 5) or (active_robot["Y"] < 0 or active_robot["Y"] > 5):
-            print("Your robot is not on the table.")
+            print("Your robot is not on the tabletop.")
             break
         if next_command == 'MOVE':
             active_robot = move(active_robot)
@@ -32,11 +34,21 @@ def action(active_robot):
                 position_x = command.split(",")[0]
                 position_y = command.split(",")[1]
                 facing = command.split(",")[2]
-                active_robot = placement(
-                    position_x, position_y, facing, active_robot)
+                robot_list = placement(
+                    position_x, position_y, facing, robot_list)
             else:
                 print(
                     "You will need to nominate a starting position after the \"PLACE\" command.")
+        elif next_command.split(" ")[0] == "ROBOT" and len(next_command.split(" ")) == 2:
+            try:
+                if isinstance(int(next_command.split(" ")[1]), int):
+                    command = int(next_command.split(" ")[1])
+                    active_robot = activate_robot(robot_list, command)
+                else:
+                    print(
+                        "Invalid command. You need to nominate the number of robot to activate.")
+            except:
+                print("Invalid Input.")
         elif next_command == 'REPORT':
             print(
                 f'{str(active_robot["X"])},{str(active_robot["Y"])},{active_robot["Facing"]}')
@@ -88,8 +100,18 @@ def turn(active_robot, direction):
     return active_robot["Facing"]
 
 
+def activate_robot(robot_list, command):
+    if len(robot_list) >= command:
+        active_robot = robot_list[command - 1]
+        return active_robot
+    elif len(robot_list) < command:
+        print("The robot you nominated does not exist!")
+    else:
+        print("You will need a \"ROBOT\" command to activate a robot.")
+
+
 if __name__ == '__main__':
-    Robot = dict()
+    Robots = []
     while True:
         response = input("Please enter your command: ")
         if response.split(" ")[0] == "PLACE" and len(response.split(" ")) == 2:
@@ -98,13 +120,9 @@ if __name__ == '__main__':
                 position_x = command.split(",")[0]
                 position_y = command.split(",")[1]
                 facing = command.split(",")[2]
-                Robot = placement(position_x, position_y, facing, Robot)
-                if Robot:
-                    action(Robot)
-                    break
-                else:
-                    print(
-                        "Invalid command. You need to initiate a starting position first.")
+                Robots = placement(position_x, position_y, facing, Robots)
+                action(Robots)
+                break
             else:
                 print(
                     "You will need to nominate a starting position after the \"PLACE\" command.")

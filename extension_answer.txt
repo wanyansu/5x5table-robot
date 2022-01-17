@@ -1,0 +1,27 @@
+
+# Testing to see if robot 2 is activated #
+C:\Users\wanya\Documents\projects\python\ioof>python extension.py
+Please enter your command: PLACE 3,2,EAST
+Please enter the next action or direction: PLACE 2,5,SOUTH
+Please enter the next action or direction: ROBOT 2
+Please enter the next action or direction: RIGHT 
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: REPORT
+0,5,WEST
+
+# Testing to see if robot 3 is activated #
+C:\Users\wanya\Documents\projects\python\ioof>python extension.py
+Please enter your command: PLACE 3,1,WEST
+Please enter the next action or direction: ASD
+Invalid
+Please enter the next action or direction: SAF
+Invalid
+Please enter the next action or direction: PLACE 2,3,SOUTH
+Please enter the next action or direction: PLACE 0,0,NORTH
+Please enter the next action or direction: ROBOT 3
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: RIGHT
+Please enter the next action or direction: MOVE
+Please enter the next action or direction: REPORT
+1,1,EAST
